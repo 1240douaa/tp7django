@@ -66,7 +66,18 @@ TEMPLATES = [
         },
     },
 ]
-DATABASES = {
+import os
+
+# Utiliser SQLite lors des tests sur GitHub Actions
+if os.environ.get('GITHUB_ACTIONS') == 'true':
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
+else:
+    DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'django',
